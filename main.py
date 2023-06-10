@@ -1,6 +1,5 @@
 import json
 
-
 # import datetime
 # import uuid
 # import appwrite.exception
@@ -52,14 +51,18 @@ from appwrite.services.users import Users
 #         return json_obj
 #
 #
-class UserPreferencesRanga:
+class UserPreferences:
+    """User preferences settings"""
+
     def __init__(self, user_id, users):
+        """Create a new user preferences"""
         self.user_id = user_id
         self.users = users
         self.heatmap_id = None
         self.mood_analysis_id = None
 
     def get_user_preferences(self):
+        """Get user preferences"""
         preferences = self.users.get_prefs(self.user_id)
         self.heatmap_id = preferences.get("heatmap_id")
         self.mood_analysis_id = preferences.get("mood_analysis_id")
@@ -68,7 +71,8 @@ class UserPreferencesRanga:
 
 # Function to fetch user preferences
 def get_user_preferences(users, user_id):
-    user_preferences = UserPreferencesRanga(user_id=user_id, users=users)
+    """Returns user preferences"""
+    user_preferences = UserPreferences(user_id=user_id, users=users)
     preferences = user_preferences.get_user_preferences()
     return preferences
 
@@ -269,6 +273,7 @@ def main(req, res):
 
 class FunctionVariables:
     def __init__(self, req):
+        """Construct a new FunctionVariables"""
         self.req = req
         self.appwrite_function_endpoint = self.get_variable(
             "APPWRITE_FUNCTION_ENDPOINT",
@@ -296,4 +301,5 @@ class FunctionVariables:
         )
 
     def get_variable(self, variable_name, default_message):
+        """Returns a variable"""
         return self.req.variables.get(variable_name, default_message)
